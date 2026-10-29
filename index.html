@@ -1,67 +1,118 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="google-site-verification" content="bmy2uTO_apYrsz6Bn2CALMn3QrfaO5YCoI2WhzKkXcA" />
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#061b42">
-<title>MBSell — Member Dashboard</title>
-<style>
-:root{--navy:#061b42;--blue:#087df5;--purple:#7c2cf4;--ink:#142033;--muted:#68778b;--bg:#eef3fa}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
-header{background:radial-gradient(circle at 90% 20%,#0b5797,transparent 38%),linear-gradient(130deg,#061536,#062b60);color:#fff;padding:20px 17px 40px;border-radius:0 0 28px 28px}
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-size:24px;font-weight:900;letter-spacing:-1px}.brand b{color:#20c6ff}.pill{font-size:12px;border:1px solid #6a8cb7;border-radius:20px;padding:7px 10px;color:#d8e9ff}
-h1{font-size:25px;margin:28px 0 5px}header p{color:#c3d5ee;margin:0;line-height:1.5;font-size:14px}
-main{max-width:780px;margin:-20px auto 90px;padding:0 14px}.card{background:#fff;border-radius:22px;padding:19px;margin-bottom:14px;box-shadow:0 8px 24px #10274c12}
-.eyebrow{font-size:12px;font-weight:800;color:#5b6a80;text-transform:uppercase;letter-spacing:.7px}.amount{font-size:34px;font-weight:850;margin:7px 0}.sub{font-size:13px;color:var(--muted);line-height:1.5}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{border-radius:20px;background:#fff;padding:16px;box-shadow:0 5px 20px #10274c0c}.stat strong{display:block;font-size:23px;margin-top:10px}.green{color:#07864f}.red{color:#d8194b}
-.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:13px;padding:13px 16px;font-weight:750;font-size:14px;cursor:pointer;text-decoration:none;background:linear-gradient(90deg,#087df5,#762df0);color:#fff;width:100%;margin-top:12px}.btn.alt{background:#eaf2ff;color:#1457a7;border:1px solid #cfe0fb}.btn.dark{background:#071e48}.section-title{font-size:18px;font-weight:850;margin:22px 2px 12px}
-.packages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.package{background:#fff;border:1.5px solid #dbe5f3;border-radius:18px;padding:15px 12px}.package.featured{border-color:#7c2cf4;box-shadow:0 0 0 2px #7c2cf41a}.package h3{font-size:14px;margin:0 0 8px}.price{font-size:24px;font-weight:900}.package p{font-size:12px;color:var(--muted);min-height:44px;line-height:1.4}.tag{font-size:10px;background:#eee5ff;color:#6523c9;border-radius:20px;padding:4px 7px;display:inline-block;margin-bottom:8px}
-.notice{background:#fff8e8;border:1px solid #f3dfae;border-radius:14px;padding:12px;color:#755318;font-size:12px;line-height:1.5;margin:12px 0}
-label{font-size:13px;font-weight:700;display:block;margin:13px 0 6px}input,select{width:100%;padding:13px;border:1px solid #d7e0ed;border-radius:12px;font:inherit;background:#fff} .payqr{display:block;width:min(100%,330px);margin:12px auto;border-radius:16px;border:1px solid #e1e7f0}
-.panel{display:none}.panel.active{display:block}.bottom{position:fixed;bottom:0;left:0;right:0;background:#071632;color:#cbd6e8;display:grid;grid-template-columns:repeat(4,1fr);padding:8px 5px calc(8px + env(safe-area-inset-bottom));box-shadow:0 -5px 20px #07163225}.bottom button{background:none;border:0;color:inherit;font-size:11px;font-weight:700;padding:7px 3px;cursor:pointer}.bottom button.active{color:#fff}.bottom span{display:block;font-size:19px;margin-bottom:3px}
-footer{text-align:center;color:#8190a4;font-size:11px;padding:20px}
-@media(max-width:420px){.packages{grid-template-columns:1fr}.package p{min-height:0}.stats{gap:9px}.stat{padding:13px}.amount{font-size:30px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#061b42">
+  <title>MBSell - Data Sell & Member Dashboard</title>
+  <style>
+    :root{--navy:#061b42;--blue:#087df5;--purple:#7c2cf4;--ink:#142033;--muted:#68778b;--bg:#eef3fa}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+    header{background:radial-gradient(circle at 90% 20%,#0b5797,transparent 38%),linear-gradient(130deg,#061b42,#087df5);color:#fff;padding:24px 16px}
+    .brand{font-size:24px;font-weight:800;letter-spacing:.5px}.brand span{color:#00e5ff}
+    main{max-width:780px;margin:20px auto;padding:0 14px}
+    .card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(6,27,66,.06);margin-bottom:16px}
+    .eyebrow{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    .stat{background:var(--bg);border-radius:14px;padding:14px}
+    .amount{font-size:22px;font-weight:800;color:var(--navy)}
+    .btn{display:block;width:100%;text-align:center;background:var(--blue);color:#fff;font-weight:700;padding:14px;border-radius:12px;text-decoration:none;border:none;cursor:pointer;margin-top:12px}
+    .packages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+    .package{background:var(--bg);border-radius:14px;padding:14px;text-align:center;border:2px solid transparent}
+    .package.featured{border-color:var(--blue);background:#f0f7ff}
+    .price{font-size:18px;font-weight:800;color:var(--navy);margin:6px 0}
+    .notice{background:#fff8e8;border:1px solid #f3dfae;border-radius:14px;padding:14px;font-size:13px;color:#755318;margin-top:14px}
+    .toggle-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #eee}
+    /* Switch styling */
+    .switch{position:relative;display:inline-block;width:50px;height:26px}
+    .switch input{opacity:0;width:0;height:0}
+    .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:34px}
+    .slider:before{position:absolute;content:"";height:18px;width:18px;left:4px;bottom:4px;background-color:white;transition:.4s;border-radius:50%}
+    input:checked + .slider{background-color:var(--blue)}
+    input:checked + .slider:before{transform:translateX(24px)}
+    footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+  </style>
 </head>
 <body>
-<header><div class="top"><div class="brand">MB<b>SELL</b>.COM</div><div class="pill">MEMBER AREA</div></div>
-<h1>Welcome to MBSell 👋</h1><p>Member dashboard · Premium plans · Payment requests</p></header>
-<main>
-<section class="panel active" id="home">
-<div class="card"><div class="eyebrow">Account overview</div><div class="amount">₹0.00</div><div class="sub">Demo balance · Real earnings and withdrawals are not connected yet.</div><button class="btn" onclick="show('premium')">Explore Premium Plans →</button></div>
-<div class="stats"><div class="stat"><div class="eyebrow">Available balance</div><strong class="green">₹0.00</strong><div class="sub">Updated after verified activity</div></div><div class="stat"><div class="eyebrow">Withdrawn</div><strong class="red">₹0.00</strong><div class="sub">No payments recorded</div></div></div>
-<div class="card" style="margin-top:14px;background:linear-gradient(125deg,#06183b,#063c6b);color:white"><div class="eyebrow" style="color:#a8d9ff">MBSell Member Hub</div><h2 style="margin:9px 0">Simple. Clear. Transparent.</h2><p style="color:#c6dbf2;font-size:13px;line-height:1.5">Review the plan details and payment terms before sending money. Purchases are manually verified in this starter version.</p></div>
-<div class="notice">Important: This is a front-end starter website. It does not sell mobile data automatically, generate earnings, or process real withdrawals. Do not advertise guaranteed income. Add a secure backend and clear business terms before taking public payments.</div>
-</section>
-<section class="panel" id="premium">
-<div class="section-title">Choose a Premium Plan</div><p class="sub">Plans start at ₹500. Replace the sample benefits and terms with the exact service you provide before publishing.</p>
-<div class="packages">
-<div class="package"><span class="tag">STARTER</span><h3>Premium Basic</h3><div class="price">₹500</div><p>Entry-level premium access. Benefits to be confirmed by site owner.</p><button class="btn" onclick="buy('Premium Basic',500)">Select</button></div>
-<div class="package featured"><span class="tag">POPULAR</span><h3>Premium Plus</h3><div class="price">₹999</div><p>Extended premium access. Benefits to be confirmed by site owner.</p><button class="btn" onclick="buy('Premium Plus',999)">Select</button></div>
-<div class="package"><span class="tag">PRO</span><h3>Premium Pro</h3><div class="price">₹1,999</div><p>Higher-tier access. Benefits to be confirmed by site owner.</p><button class="btn" onclick="buy('Premium Pro',1999)">Select</button></div>
-</div>
-<div class="card" style="margin-top:14px"><h3 style="margin-top:0">Pay using UPI</h3><p class="sub">UPI ID supplied by you:</p><div style="font-weight:800;font-size:18px;overflow-wrap:anywhere">kamal.ansari01@ptyes</div><button class="btn alt" onclick="copyUPI()">Copy UPI ID</button><img class="payqr" src="upi-qr.png" alt="UPI QR code provided by the website owner"><p class="sub" style="text-align:center">Scan with a UPI app, then submit your payment reference below.</p>
-<label for="buyer">Your name</label><input id="buyer" placeholder="Enter your name">
-<label for="utr">UPI transaction reference / UTR</label><input id="utr" placeholder="Enter reference after payment">
-<button class="btn" onclick="submitPayment()">Send payment details on WhatsApp</button>
-<div class="notice">Only pay after confirming the plan, refund policy, and service details. This page cannot verify payments automatically. Never share your UPI PIN or OTP.</div></div>
-</section>
-<section class="panel" id="withdraw">
-<div class="section-title">Withdraw balance</div><div class="card"><div class="amount">₹0.00</div><p class="sub">Your balance is shown as zero in this demo. A withdrawal can only be reviewed after real, verified earnings are recorded by a secure backend.</p><label for="wamount">Withdrawal amount (₹)</label><input id="wamount" type="number" min="1" placeholder="Enter amount"><label for="upi">Your UPI ID</label><input id="upi" placeholder="name@bank"><button class="btn" onclick="withdrawRequest()">Request review via WhatsApp</button><div class="notice">This creates a WhatsApp message only; it does not transfer money or approve a withdrawal.</div></div>
-</section>
-<section class="panel" id="tasks">
-<div class="section-title">Tasks & activity</div><div class="card"><h3 style="margin-top:0">No verified activity yet</h3><p class="sub">Activity history will appear here after a backend is connected. Do not treat demo figures as real earnings.</p><button class="btn" onclick="show('premium')">View plans</button></div>
-</section>
-</main>
-<nav class="bottom"><button class="active" data-page="home" onclick="show('home',this)"><span>⌂</span>Home</button><button data-page="premium" onclick="show('premium',this)"><span>✦</span>Premium</button><button data-page="tasks" onclick="show('tasks',this)"><span>☷</span>Activity</button><button data-page="withdraw" onclick="show('withdraw',this)"><span>▣</span>Withdraw</button></nav>
-<footer>© 2026 MBSell · Starter template · Contact: WhatsApp 9570977104</footer>
-<script>
-const PHONE='919570977104', UPI='kamal.ansari01@ptyes';
-function show(id,btn){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('.bottom button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo({top:0,behavior:'smooth'});}
-function wa(msg){window.open('https://wa.me/'+PHONE+'?text='+encodeURIComponent(msg),'_blank');}
-function buy(plan,price){window.currentPlan={plan,price};document.getElementById('buyer').focus();document.getElementById('utr').placeholder='Pay ₹'+price+' first, then enter UTR';document.querySelector('#premium .card').scrollIntoView({behavior:'smooth'});}
-function copyUPI(){if(navigator.clipboard){navigator.clipboard.writeText(UPI).then(()=>alert('UPI ID copied'));}else{prompt('Copy UPI ID:',UPI)}}
-function submitPayment(){const name=document.getElementById('buyer').value.trim(),utr=document.getElementById('utr').value.trim(),p=window.currentPlan||{plan:'Premium plan (please confirm)',price:'not selected'};if(!name||!utr){alert('Please enter your name and UPI transaction reference.');return;}wa('MBSell payment verification request%0AName: '+name+'%0APlan: '+p.plan+'%0AAmount: ₹'+p.price+'%0AUPI ID paid to: '+UPI+'%0AUTR: '+utr+'%0APlease verify payment and confirm service terms.');}
-function withdrawRequest(){const amount=document.getElementById('wamount').value,upi=document.getElementById('upi').value.trim();if(!amount||Number(amount)<=0||!upi){alert('Please enter a valid amount and UPI ID.');return;}wa('MBSell withdrawal review request%0AAmount: ₹'+amount+'%0AMy UPI ID: '+upi+'%0AI understand this is a review request, not an instant transfer.');}
-</script>
-</body></html>
+  <header>
+    <div class="brand">MB<span>SELL</span>.COM</div>
+    <div style="font-size:14px;opacity:.9;margin-top:4px">Secure Data Marketplace & Member Dashboard</div>
+  </header>
+  
+  <main>
+    <!-- Account & Balance Overview -->
+    <div class="card">
+      <div class="eyebrow">Account Overview</div>
+      <div class="stats">
+        <div class="stat">
+          <div class="eyebrow">Available Balance</div>
+          <div class="amount">₹0.00</div>
+        </div>
+        <div class="stat">
+          <div class="eyebrow">Data Consent Status</div>
+          <div style="font-weight:700;color:#d32f2f;margin-top:4px" id="status-text">OFF (Secure)</div>
+        </div>
+      </div>
+
+      <!-- Data Consent Toggle (Default OFF) -->
+      <div class="toggle-row">
+        <div>
+          <div style="font-weight:700">Explicit Data Sharing Consent</div>
+          <div style="font-size:12px;color:var(--muted)">Turn ON only when you authorize data processing.</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="consentToggle" onchange="toggleConsent()">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Premium Plans (₹500 Starter) -->
+    <div class="card">
+      <div class="eyebrow">Upgrade Plan</div>
+      <div style="font-size:18px;font-weight:800;color:var(--navy)">Choose a Premium Plan</div>
+      <div class="packages">
+        <div class="package featured">
+          <div style="font-size:11px;font-weight:800;color:var(--blue)">STARTER</div>
+          <div class="price">₹500</div>
+          <div style="font-size:12px;color:var(--muted)">Basic Access</div>
+        </div>
+        <div class="package">
+          <div style="font-size:11px;font-weight:800;color:var(--muted)">PRO</div>
+          <div class="price">₹1,500</div>
+          <div style="font-size:12px;color:var(--muted)">Advanced</div>
+        </div>
+        <div class="package">
+          <div style="font-size:11px;font-weight:800;color:var(--muted)">ELITE</div>
+          <div class="price">₹3,000</div>
+          <div style="font-size:12px;color:var(--muted)">Max Limits</div>
+        </div>
+      </div>
+
+      <div class="notice">
+        <strong>Payment Info:</strong> Pay ₹500 via UPI ID: <code>kamal.ansari01@ptyes</code> and share screenshot on WhatsApp: <strong>9570977104</strong> for manual activation.
+      </div>
+
+      <a href="https://wa.me/919570977104?text=Hello%20Kamal,%20I%20have%20paid%20₹500%20for%20MBSell%20Starter%20Plan.%20Here%20is%20my%20payment%20screenshot." target="_blank" class="btn">Pay & Verify via WhatsApp</a>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2026 MBSell.com &bull; All Rights Reserved
+  </footer>
+
+  <script>
+    function toggleConsent() {
+      const checkbox = document.getElementById('consentToggle');
+      const statusText = document.getElementById('status-text');
+      if(checkbox.checked) {
+        statusText.innerText = "ON (Active)";
+        statusText.style.color = "#2e7d32";
+      } else {
+        statusText.innerText = "OFF (Secure)";
+        statusText.style.color = "#d32f2f";
+      }
+    }
+  </script>
+</body>
+</html>
