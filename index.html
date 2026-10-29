@@ -4,114 +4,136 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#061b42">
-  <title>MBSell - Data Sell & Member Dashboard</title>
+  <title>GBSELL.COM - Global Internet Data Marketplace</title>
   <style>
     :root{--navy:#061b42;--blue:#087df5;--purple:#7c2cf4;--ink:#142033;--muted:#68778b;--bg:#eef3fa}
-    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
-    header{background:radial-gradient(circle at 90% 20%,#0b5797,transparent 38%),linear-gradient(130deg,#061b42,#087df5);color:#fff;padding:24px 16px}
-    .brand{font-size:24px;font-weight:800;letter-spacing:.5px}.brand span{color:#00e5ff}
-    main{max-width:780px;margin:20px auto;padding:0 14px}
-    .card{background:#fff;border-radius:18px;padding:20px;box-shadow:0 4px 20px rgba(6,27,66,.06);margin-bottom:16px}
-    .eyebrow{font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:6px}
-    .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    .stat{background:var(--bg);border-radius:14px;padding:14px}
-    .amount{font-size:22px;font-weight:800;color:var(--navy)}
-    .btn{display:block;width:100%;text-align:center;background:var(--blue);color:#fff;font-weight:700;padding:14px;border-radius:12px;text-decoration:none;border:none;cursor:pointer;margin-top:12px}
-    .packages{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
-    .package{background:var(--bg);border-radius:14px;padding:14px;text-align:center;border:2px solid transparent}
-    .package.featured{border-color:var(--blue);background:#f0f7ff}
-    .price{font-size:18px;font-weight:800;color:var(--navy);margin:6px 0}
-    .notice{background:#fff8e8;border:1px solid #f3dfae;border-radius:14px;padding:14px;font-size:13px;color:#755318;margin-top:14px}
-    .toggle-row{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid #eee}
-    /* Switch styling */
-    .switch{position:relative;display:inline-block;width:50px;height:26px}
-    .switch input{opacity:0;width:0;height:0}
-    .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background-color:#ccc;transition:.4s;border-radius:34px}
-    .slider:before{position:absolute;content:"";height:18px;width:18px;left:4px;bottom:4px;background-color:white;transition:.4s;border-radius:50%}
-    input:checked + .slider{background-color:var(--blue)}
-    input:checked + .slider:before{transform:translateX(24px)}
-    footer{text-align:center;color:var(--muted);font-size:11px;padding:20px}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.4;padding-bottom:70px}
+    header{background:radial-gradient(circle at 90% 20%,#0b5797,transparent 38%),linear-gradient(130deg,#061b42,#087df5);color:#fff;padding:20px 16px}
+    .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .brand{font-size:20px;font-weight:800;letter-spacing:.5px}.brand span{color:#00e5ff}
+    .id-badge{background:rgba(255,255,255,0.15);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:700}
+    main{max-width:780px;margin:12px auto;padding:0 12px}
+    .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 4px 20px rgba(6,27,66,.06);margin-bottom:12px}
+    .eyebrow{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+    .stat{background:var(--bg);border-radius:12px;padding:12px}
+    .amount{font-size:20px;font-weight:800;color:var(--navy)}
+    .btn{display:block;width:100%;text-align:center;background:var(--blue);color:#fff;font-weight:700;padding:12px;border-radius:12px;text-decoration:none;border:none;cursor:pointer;margin-top:10px}
+    .packages{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+    .package{background:var(--bg);border-radius:10px;padding:10px 4px;text-align:center;border:2px solid transparent;font-weight:700;font-size:13px;cursor:pointer}
+    .package.active{border-color:var(--blue);background:#f0f7ff;color:var(--blue)}
+    
+    /* Bottom Navigation Bar */
+    nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 0;z-index:1000;box-shadow:0 -2px 10px rgba(0,0,0,0.05)}
+    .nav-item{text-align:center;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700}
+    .nav-item.active{color:var(--blue)}
+    .nav-item div{font-size:18px;margin-bottom:2px}
+
+    /* Modal Styling */
+    .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:2000;padding:16px}
+    .modal-content{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:400px;text-align:center}
   </style>
 </head>
 <body>
   <header>
-    <div class="brand">MB<span>SELL</span>.COM</div>
-    <div style="font-size:14px;opacity:.9;margin-top:4px">Secure Data Marketplace & Member Dashboard</div>
+    <div class="top-bar">
+      <div class="brand">GB<span>SELL</span>.COM</div>
+      <div class="id-badge">ID: 343406</div>
+    </div>
+    <div style="font-size:15px;font-weight:700;">Welcome back, kamal ansari 👋</div>
+    <div style="font-size:12px;opacity:.85;margin-top:2px">Manage your earnings, withdrawals, and account activity easily.</div>
   </header>
   
   <main>
-    <!-- Account & Balance Overview -->
+    <!-- Total Earned Card -->
+    <div class="card" style="background:linear-gradient(135deg,#061b42,#143a75);color:#fff;">
+      <div class="eyebrow" style="color:#8ab4f8">Total Earned</div>
+      <div style="font-size:26px;font-weight:800;margin:4px 0">₹1,850.00</div>
+      <div style="font-size:11px;opacity:0.8">Your lifetime network income on GBSell.com</div>
+    </div>
+
+    <!-- Stats Grid -->
     <div class="card">
-      <div class="eyebrow">Account Overview</div>
       <div class="stats">
         <div class="stat">
           <div class="eyebrow">Available Balance</div>
-          <div class="amount">₹0.00</div>
+          <div class="amount">₹1,850.00</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">Ready for withdrawal right now.</div>
         </div>
         <div class="stat">
-          <div class="eyebrow">Data Consent Status</div>
-          <div style="font-weight:700;color:#d32f2f;margin-top:4px" id="status-text">OFF (Secure)</div>
+          <div class="eyebrow">Total Withdrawal</div>
+          <div class="amount">₹0.00</div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px">Already paid to your account.</div>
         </div>
-      </div>
-
-      <!-- Data Consent Toggle (Default OFF) -->
-      <div class="toggle-row">
-        <div>
-          <div style="font-weight:700">Explicit Data Sharing Consent</div>
-          <div style="font-size:12px;color:var(--muted)">Turn ON only when you authorize data processing.</div>
-        </div>
-        <label class="switch">
-          <input type="checkbox" id="consentToggle" onchange="toggleConsent()">
-          <span class="slider"></span>
-        </label>
       </div>
     </div>
 
-    <!-- Premium Plans (₹500 Starter) -->
+    <!-- Select MB to Sell -->
     <div class="card">
-      <div class="eyebrow">Upgrade Plan</div>
-      <div style="font-size:18px;font-weight:800;color:var(--navy)">Choose a Premium Plan</div>
+      <div class="eyebrow">Select MB to Sell</div>
+      <div style="font-size:14px;font-weight:700;color:var(--navy)">Choose the amount you want to sell:</div>
       <div class="packages">
-        <div class="package featured">
-          <div style="font-size:11px;font-weight:800;color:var(--blue)">STARTER</div>
-          <div class="price">₹500</div>
-          <div style="font-size:12px;color:var(--muted)">Basic Access</div>
+        <div class="package" onclick="selectMB(50, 75)">50 MB</div>
+        <div class="package active" onclick="selectMB(75, 112.5)">75 MB</div>
+        <div class="package" onclick="selectMB(100, 150)">100 MB</div>
+        <div class="package" onclick="selectMB(150, 225)">150 MB</div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;font-weight:800;color:var(--muted)">ESTIMATED EARNING</div>
+          <div id="est-earning" style="font-size:18px;font-weight:800;color:var(--navy)">₹112.50</div>
         </div>
-        <div class="package">
-          <div style="font-size:11px;font-weight:800;color:var(--muted)">PRO</div>
-          <div class="price">₹1,500</div>
-          <div style="font-size:12px;color:var(--muted)">Advanced</div>
+        <button class="btn" style="width:auto;padding:10px 20px;margin-top:0" onclick="startDataSelling()">Start Data Selling</button>
+      </div>
+    </div>
+
+    <!-- Tasks Section -->
+    <div class="card">
+      <div class="eyebrow">Tasks & Earn</div>
+      <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px">Complete & Claim Rewards</div>
+      <div style="background:var(--bg);border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:700;font-size:13px">Daily Ad - Watching Task</div>
+          <div style="font-size:11px;color:var(--muted)">Watch ads & earn money</div>
         </div>
-        <div class="package">
-          <div style="font-size:11px;font-weight:800;color:var(--muted)">ELITE</div>
-          <div class="price">₹3,000</div>
-          <div style="font-size:12px;color:var(--muted)">Max Limits</div>
+        <div style="text-align:right">
+          <div style="font-weight:800;color:var(--blue)">₹500.00</div>
+          <button class="btn" style="width:auto;padding:6px 12px;margin-top:4px;font-size:11px" onclick="alert('Task started! Watch video to claim.')">Start</button>
         </div>
       </div>
-
-      <div class="notice">
-        <strong>Payment Info:</strong> Pay ₹500 via UPI ID: <code>kamal.ansari01@ptyes</code> and share screenshot on WhatsApp: <strong>9570977104</strong> for manual activation.
-      </div>
-
-      <a href="https://wa.me/919570977104?text=Hello%20Kamal,%20I%20have%20paid%20₹500%20for%20MBSell%20Starter%20Plan.%20Here%20is%20my%20payment%20screenshot." target="_blank" class="btn">Pay & Verify via WhatsApp</a>
     </div>
   </main>
 
-  <footer>
-    &copy; 2026 MBSell.com &bull; All Rights Reserved
-  </footer>
+  <!-- Bottom Navigation -->
+  <nav>
+    <a href="#" class="nav-item active"><div>🏠</div>Home</a>
+    <a href="#" class="nav-item" onclick="openWithdrawModal()"><div>💳</div>Withdraw</a>
+  </nav>
+
+  <!-- Withdrawal Modal -->
+  <div class="modal" id="withdrawModal">
+    <div class="modal-content">
+      <div style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:8px">Active VPS package required</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px">Your account is verified. Buy an active VPS package (Starter ₹500 via UPI: <code>kamal.ansari01@ptyes</code>) to enable withdrawal.</div>
+      <button class="btn" onclick="window.open('https://wa.me/919570977104?text=Hello%20Kamal,%20I%20want%20to%20activate%20my%20VPS%20package%20for%20withdrawal.', '_blank')">Pay ₹500 & Activate via WhatsApp</button>
+      <button style="background:none;border:none;color:var(--muted);font-weight:700;margin-top:12px;cursor:pointer" onclick="closeWithdrawModal()">Close</button>
+    </div>
+  </div>
 
   <script>
-    function toggleConsent() {
-      const checkbox = document.getElementById('consentToggle');
-      const statusText = document.getElementById('status-text');
-      if(checkbox.checked) {
-        statusText.innerText = "ON (Active)";
-        statusText.style.color = "#2e7d32";
-      } else {
-        statusText.innerText = "OFF (Secure)";
-        statusText.style.color = "#d32f2f";
-      }
+    function selectMB(mb, earning) {
+      document.querySelectorAll('.package').forEach(p => p.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('est-earning').innerText = '₹' + earning.toFixed(2);
+    }
+    function startDataSelling() {
+      alert('Data streaming active! Keep this screen open.');
+    }
+    function openWithdrawModal() {
+      document.getElementById('withdrawModal').style.display = 'flex';
+    }
+    function closeWithdrawModal() {
+      document.getElementById('withdrawModal').style.display = 'none';
     }
   </script>
 </body>
