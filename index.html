@@ -32,8 +32,8 @@
 
     /* Modal Styling */
     .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:2000;padding:16px}
-    .modal-content{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:400px;text-align:center;border-top:6px solid var(--gold)}
-    .qr-box{background:#f8fafc;border:2px dashed #cbd5e1;padding:12px;border-radius:12px;margin:12px 0;font-size:13px;font-weight:700;color:var(--navy)}
+    .modal-content{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:380px;text-align:center;border-top:6px solid var(--gold);max-height:90vh;overflow-y:auto}
+    .qr-img{width:220px;height:220px;margin:10px auto;border-radius:8px;border:1px solid #ddd;display:block;object-fit:contain}
   </style>
 </head>
 <body>
@@ -113,20 +113,22 @@
     <a class="nav-item" onclick="openWithdrawModal()"><div>💳</div>Withdraw</a>
   </nav>
 
-  <!-- Golden Withdrawal & VPS Popup -->
+  <!-- Golden Withdrawal & VPS Popup with Exact User QR Code -->
   <div class="modal" id="withdrawModal">
     <div class="modal-content">
       <div style="font-size:22px;margin-bottom:4px">👑</div>
-      <div style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:8px">Active Golden VPS Package Required</div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Unlock instant withdrawals by activating the Premium Plan for <b>₹549</b>.</div>
+      <div style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:4px">Active Golden VPS Package Required</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Scan QR & Pay <b>₹549</b> to unlock instant withdrawals.</div>
       
-      <div class="qr-box">
-        📷 Scan QR or Pay via UPI ID:<br>
-        <span style="color:var(--blue);font-size:14px">kamal.ansari01@ptyes</span>
+      <!-- User's exact uploaded QR Code Image -->
+      <img class="qr-img" src="1000154804.png" alt="Kamal Ansari UPI QR Code">
+      
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-top:6px">
+        UPI ID: <span style="color:var(--blue)">kamal.ansari01@ptyes</span>
       </div>
 
-      <button class="btn btn-gold" onclick="window.open('https://wa.me/919570977104?text=Hello%20Kamal,%20I%20have%20paid%20₹549%20for%20the%20Golden%20VPS%20Package.%20Here%20is%20my%20screenshot.', '_blank')">Send Payment Screenshot on WhatsApp</button>
-      <button style="background:none;border:none;color:var(--muted);font-weight:700;margin-top:12px;cursor:pointer" onclick="closeWithdrawModal()">Close</button>
+      <button class="btn btn-gold" style="margin-top:12px" onclick="window.open('https://wa.me/919570977104?text=Hello%20Kamal,%20I%20have%20paid%20₹549%20for%20the%20Golden%20VPS%20Package.%20Here%20is%20my%20screenshot.', '_blank')">Send Payment Screenshot on WhatsApp</button>
+      <button style="background:none;border:none;color:var(--muted);font-weight:700;margin-top:10px;cursor:pointer" onclick="closeWithdrawModal()">Close</button>
     </div>
   </div>
 
@@ -134,34 +136,31 @@
     let currentMB = 100;
     let currentEarning = 50;
 
-    // Load saved balance securely from both localStorage & sessionStorage
-    function getSavedVal(key) {
-      let lVal = localStorage.getItem(key);
-      let sVal = sessionStorage.getItem(key);
-      if(lVal !== null && !isNaN(parseFloat(lVal))) return parseFloat(lVal);
-      if(sVal !== null && !isNaN(parseFloat(sVal))) return parseFloat(sVal);
+    function getBalance() {
+      let val = localStorage.getItem('mbsell_bal');
+      if(val !== null && !isNaN(parseFloat(val))) return parseFloat(val);
       return 0.0;
     }
 
-    let balance = getSavedVal('mbsell_balance');
-    let totalEarned = getSavedVal('mbsell_total_earned');
+    function getTotalEarned() {
+      let val = localStorage.getItem('mbsell_earned');
+      if(val !== null && !isNaN(parseFloat(val))) return parseFloat(val);
+      return 0.0;
+    }
+
+    let balance = getBalance();
+    let totalEarned = getTotalEarned();
 
     function updateUI() {
       document.getElementById('avail-balance').innerText = '₹' + balance.toFixed(2);
       document.getElementById('total-earned').innerText = '₹' + totalEarned.toFixed(2);
-      
       try {
-        localStorage.setItem('mbsell_balance', balance.toString());
-        localStorage.setItem('mbsell_total_earned', totalEarned.toString());
-        sessionStorage.setItem('mbsell_balance', balance.toString());
-        sessionStorage.setItem('mbsell_total_earned', totalEarned.toString());
-      } catch(e) {
-        console.log('Storage not allowed in private tab');
-      }
+        localStorage.setItem('mbsell_bal', balance.toString());
+        localStorage.setItem('mbsell_earned', totalEarned.toString());
+      } catch(e) {}
     }
 
-    // Auto load saved state when page opens
-    window.addEventListener('DOMContentLoaded', updateUI);
+    updateUI();
 
     function selectMB(mb, earning, element) {
       document.querySelectorAll('.package').forEach(p => p.classList.remove('active'));
