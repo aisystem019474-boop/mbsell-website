@@ -25,7 +25,7 @@
     
     /* Bottom Navigation Bar */
     nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 0;z-index:1000;box-shadow:0 -2px 10px rgba(0,0,0,0.05)}
-    .nav-item{text-align:center;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700}
+    .nav-item{text-align:center;text-decoration:none;color:var(--muted);font-size:11px;font-weight:700;cursor:pointer}
     .nav-item.active{color:var(--blue)}
     .nav-item div{font-size:18px;margin-bottom:2px}
 
@@ -37,7 +37,7 @@
 <body>
   <header>
     <div class="top-bar">
-      <div class="brand">GB<span>SELL</span>.COM</div>
+      <div class="brand">MB<span>SELL</span>.COM</div>
       <div class="id-badge">ID: 343406</div>
     </div>
     <div style="font-size:15px;font-weight:700;">Welcome back, kamal ansari 👋</div>
@@ -48,8 +48,8 @@
     <!-- Total Earned Card -->
     <div class="card" style="background:linear-gradient(135deg,#061b42,#143a75);color:#fff;">
       <div class="eyebrow" style="color:#8ab4f8">Total Earned</div>
-      <div style="font-size:26px;font-weight:800;margin:4px 0">₹1,850.00</div>
-      <div style="font-size:11px;opacity:0.8">Your lifetime network income on GBSell.com</div>
+      <div id="total-earned" style="font-size:26px;font-weight:800;margin:4px 0">₹0.00</div>
+      <div style="font-size:11px;opacity:0.8">Your lifetime network income on MBSell.com</div>
     </div>
 
     <!-- Stats Grid -->
@@ -57,7 +57,7 @@
       <div class="stats">
         <div class="stat">
           <div class="eyebrow">Available Balance</div>
-          <div class="amount">₹1,850.00</div>
+          <div id="avail-balance" class="amount">₹0.00</div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px">Ready for withdrawal right now.</div>
         </div>
         <div class="stat">
@@ -73,10 +73,10 @@
       <div class="eyebrow">Select MB to Sell</div>
       <div style="font-size:14px;font-weight:700;color:var(--navy)">Choose the amount you want to sell:</div>
       <div class="packages">
-        <div class="package" onclick="selectMB(50, 75)">50 MB</div>
-        <div class="package active" onclick="selectMB(75, 112.5)">75 MB</div>
-        <div class="package" onclick="selectMB(100, 150)">100 MB</div>
-        <div class="package" onclick="selectMB(150, 225)">150 MB</div>
+        <div class="package" onclick="selectMB(50, 75, this)">50 MB</div>
+        <div class="package active" onclick="selectMB(75, 112.5, this)">75 MB</div>
+        <div class="package" onclick="selectMB(100, 150, this)">100 MB</div>
+        <div class="package" onclick="selectMB(150, 225, this)">150 MB</div>
       </div>
       <div style="background:var(--bg);border-radius:12px;padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
         <div>
@@ -85,6 +85,7 @@
         </div>
         <button class="btn" style="width:auto;padding:10px 20px;margin-top:0" onclick="startDataSelling()">Start Data Selling</button>
       </div>
+      <div id="selling-status" style="font-size:12px;font-weight:700;color:var(--blue);margin-top:10px;text-align:center;display:none;">⚡ Streaming data... Please wait</div>
     </div>
 
     <!-- Tasks Section -->
@@ -98,7 +99,7 @@
         </div>
         <div style="text-align:right">
           <div style="font-weight:800;color:var(--blue)">₹500.00</div>
-          <button class="btn" style="width:auto;padding:6px 12px;margin-top:4px;font-size:11px" onclick="alert('Task started! Watch video to claim.')">Start</button>
+          <button class="btn" style="width:auto;padding:6px 12px;margin-top:4px;font-size:11px" onclick="completeTask(500)">Start</button>
         </div>
       </div>
     </div>
@@ -106,8 +107,8 @@
 
   <!-- Bottom Navigation -->
   <nav>
-    <a href="#" class="nav-item active"><div>🏠</div>Home</a>
-    <a href="#" class="nav-item" onclick="openWithdrawModal()"><div>💳</div>Withdraw</a>
+    <a class="nav-item active"><div>🏠</div>Home</a>
+    <a class="nav-item" onclick="openWithdrawModal()"><div>💳</div>Withdraw</a>
   </nav>
 
   <!-- Withdrawal Modal -->
@@ -121,14 +122,41 @@
   </div>
 
   <script>
-    function selectMB(mb, earning) {
+    let currentMB = 75;
+    let currentEarning = 112.5;
+    let balance = 0.0;
+    let totalEarned = 0.0;
+
+    function selectMB(mb, earning, element) {
       document.querySelectorAll('.package').forEach(p => p.classList.remove('active'));
-      event.target.classList.add('active');
+      element.classList.add('active');
+      currentMB = mb;
+      currentEarning = earning;
       document.getElementById('est-earning').innerText = '₹' + earning.toFixed(2);
     }
+
     function startDataSelling() {
-      alert('Data streaming active! Keep this screen open.');
+      const statusDiv = document.getElementById('selling-status');
+      statusDiv.style.display = 'block';
+      statusDiv.innerText = `⚡ Selling ${currentMB} MB data... Please keep screen open.`;
+      
+      setTimeout(() => {
+        balance += currentEarning;
+        totalEarned += currentEarning;
+        document.getElementById('avail-balance').innerText = '₹' + balance.toFixed(2);
+        document.getElementById('total-earned').innerText = '₹' + totalEarned.toFixed(2);
+        statusDiv.innerText = `✅ Success! Earned ₹${currentEarning.toFixed(2)} added to balance.`;
+      }, 3000);
     }
+
+    function completeTask(amount) {
+      balance += amount;
+      totalEarned += amount;
+      document.getElementById('avail-balance').innerText = '₹' + balance.toFixed(2);
+      document.getElementById('total-earned').innerText = '₹' + totalEarned.toFixed(2);
+      alert('Task completed successfully! ₹' + amount + ' added to your balance.');
+    }
+
     function openWithdrawModal() {
       document.getElementById('withdrawModal').style.display = 'flex';
     }
