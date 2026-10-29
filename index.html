@@ -73,4 +73,130 @@
     <!-- Select MB to Sell (Rate: ₹0.50 per MB) -->
     <div class="card">
       <div class="eyebrow">Select MB to Sell (Rate: ₹0.50/MB)</div>
-      <div style="font-size:14px;font-weight:700;color:var(--navy)">Choose the amount you want to sell
+      <div style="font-size:14px;font-weight:700;color:var(--navy)">Choose the amount you want to sell:</div>
+      <div class="packages">
+        <div class="package" onclick="selectMB(50, 25, this)">50 MB</div>
+        <div class="package active" onclick="selectMB(100, 50, this)">100 MB</div>
+        <div class="package" onclick="selectMB(200, 100, this)">200 MB</div>
+        <div class="package" onclick="selectMB(500, 250, this)">500 MB</div>
+      </div>
+      <div style="background:var(--bg);border-radius:12px;padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-size:11px;font-weight:800;color:var(--muted)">ESTIMATED EARNING</div>
+          <div id="est-earning" style="font-size:18px;font-weight:800;color:var(--navy)">₹50.00</div>
+        </div>
+        <button class="btn" style="width:auto;padding:10px 20px;margin-top:0" onclick="startDataSelling()">Start Data Selling</button>
+      </div>
+      <div id="selling-status" style="font-size:12px;font-weight:700;color:var(--blue);margin-top:10px;text-align:center;display:none;">⚡ Streaming data... Please wait</div>
+    </div>
+
+    <!-- Tasks Section -->
+    <div class="card">
+      <div class="eyebrow">Tasks & Earn</div>
+      <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px">Complete & Claim Rewards</div>
+      <div style="background:var(--bg);border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div style="font-weight:700;font-size:13px">Daily Ad - Watching Task</div>
+          <div style="font-size:11px;color:var(--muted)">Watch ads & earn money</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:800;color:var(--blue)">₹100.00</div>
+          <button class="btn" style="width:auto;padding:6px 12px;margin-top:4px;font-size:11px" onclick="completeTask(100)">Start</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <nav>
+    <a class="nav-item active"><div>🏠</div>Home</a>
+    <a class="nav-item" onclick="openWithdrawModal()"><div>💳</div>Withdraw</a>
+  </nav>
+
+  <!-- Golden Withdrawal & VPS Popup -->
+  <div class="modal" id="withdrawModal">
+    <div class="modal-content">
+      <div style="font-size:22px;margin-bottom:4px">👑</div>
+      <div style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:8px">Active Golden VPS Package Required</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:12px">Unlock instant withdrawals by activating the Premium Plan for <b>₹549</b>.</div>
+      
+      <div class="qr-box">
+        📷 Scan QR or Pay via UPI ID:<br>
+        <span style="color:var(--blue);font-size:14px">kamal.ansari01@ptyes</span>
+      </div>
+
+      <button class="btn btn-gold" onclick="window.open('https://wa.me/919570977104?text=Hello%20Kamal,%20I%20have%20paid%20₹549%20for%20the%20Golden%20VPS%20Package.%20Here%20is%20my%20screenshot.', '_blank')">Send Payment Screenshot on WhatsApp</button>
+      <button style="background:none;border:none;color:var(--muted);font-weight:700;margin-top:12px;cursor:pointer" onclick="closeWithdrawModal()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    let currentMB = 100;
+    let currentEarning = 50;
+
+    // Load saved balance securely from both localStorage & sessionStorage
+    function getSavedVal(key) {
+      let lVal = localStorage.getItem(key);
+      let sVal = sessionStorage.getItem(key);
+      if(lVal !== null && !isNaN(parseFloat(lVal))) return parseFloat(lVal);
+      if(sVal !== null && !isNaN(parseFloat(sVal))) return parseFloat(sVal);
+      return 0.0;
+    }
+
+    let balance = getSavedVal('mbsell_balance');
+    let totalEarned = getSavedVal('mbsell_total_earned');
+
+    function updateUI() {
+      document.getElementById('avail-balance').innerText = '₹' + balance.toFixed(2);
+      document.getElementById('total-earned').innerText = '₹' + totalEarned.toFixed(2);
+      
+      try {
+        localStorage.setItem('mbsell_balance', balance.toString());
+        localStorage.setItem('mbsell_total_earned', totalEarned.toString());
+        sessionStorage.setItem('mbsell_balance', balance.toString());
+        sessionStorage.setItem('mbsell_total_earned', totalEarned.toString());
+      } catch(e) {
+        console.log('Storage not allowed in private tab');
+      }
+    }
+
+    // Auto load saved state when page opens
+    window.addEventListener('DOMContentLoaded', updateUI);
+
+    function selectMB(mb, earning, element) {
+      document.querySelectorAll('.package').forEach(p => p.classList.remove('active'));
+      element.classList.add('active');
+      currentMB = mb;
+      currentEarning = earning;
+      document.getElementById('est-earning').innerText = '₹' + earning.toFixed(2);
+    }
+
+    function startDataSelling() {
+      const statusDiv = document.getElementById('selling-status');
+      statusDiv.style.display = 'block';
+      statusDiv.innerText = `⚡ Selling ${currentMB} MB data at ₹0.50/MB... Please keep screen open.`;
+      
+      setTimeout(() => {
+        balance += currentEarning;
+        totalEarned += currentEarning;
+        updateUI();
+        statusDiv.innerText = `✅ Success! Earned ₹${currentEarning.toFixed(2)} added to balance.`;
+      }, 3000);
+    }
+
+    function completeTask(amount) {
+      balance += amount;
+      totalEarned += amount;
+      updateUI();
+      alert('Task completed successfully! ₹' + amount + ' added to your balance.');
+    }
+
+    function openWithdrawModal() {
+      document.getElementById('withdrawModal').style.display = 'flex';
+    }
+    function closeWithdrawModal() {
+      document.getElementById('withdrawModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
