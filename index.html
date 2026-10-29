@@ -33,7 +33,8 @@
     /* Modal Styling */
     .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);justify-content:center;align-items:center;z-index:2000;padding:16px}
     .modal-content{background:#fff;border-radius:16px;padding:20px;width:100%;max-width:380px;text-align:center;border-top:6px solid var(--gold);max-height:90vh;overflow-y:auto}
-    .qr-img{width:220px;height:220px;margin:10px auto;border-radius:8px;border:1px solid #ddd;display:block;object-fit:contain}
+    .qr-box{background:#fff;border:2px solid #087df5;padding:10px;border-radius:12px;width:180px;height:180px;margin:12px auto;display:flex;justify-content:center;align-items:center}
+    .qr-img{width:100%;height:100%;object-fit:contain}
   </style>
 </head>
 <body>
@@ -113,17 +114,20 @@
     <a class="nav-item" onclick="openWithdrawModal()"><div>💳</div>Withdraw</a>
   </nav>
 
-  <!-- Golden Withdrawal & VPS Popup with Exact User QR Code -->
+  <!-- Golden Withdrawal & VPS Popup -->
   <div class="modal" id="withdrawModal">
     <div class="modal-content">
       <div style="font-size:22px;margin-bottom:4px">👑</div>
       <div style="font-size:18px;font-weight:800;color:var(--navy);margin-bottom:4px">Active Golden VPS Package Required</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:8px">Scan QR & Pay <b>₹549</b> to unlock instant withdrawals.</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Scan QR & Pay <b>₹549</b> to unlock instant withdrawals.</div>
       
-      <!-- User's exact uploaded QR Code Image -->
-      <img class="qr-img" src="1000154804.png" alt="Kamal Ansari UPI QR Code">
+      <!-- Instant Secure QR Code Generator for Kamal Ansari UPI -->
+      <div class="qr-box">
+        <img class="qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=kamal.ansari01@ptyes%26pn=Kamal%20Ansari%26am=549.00%26cu=INR" alt="UPI QR Code">
+      </div>
       
-      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-top:6px">
+      <div style="font-size:12px;font-weight:700;color:var(--navy);margin-top:4px">
+        Name: <span style="color:var(--navy)">Kamal Ansari</span><br>
         UPI ID: <span style="color:var(--blue)">kamal.ansari01@ptyes</span>
       </div>
 
